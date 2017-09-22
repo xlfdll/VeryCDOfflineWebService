@@ -1,0 +1,58 @@
+﻿@model Entry
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.LinkID = "F" + Model.ID;
+    ViewBag.DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+    ViewBag.LinkRegex = new Regex(@"ed2k://\|file\|(?<FileName>.+)\|(?<FileSize>\d+)\|");
+}
+
+<h2>@Model.Title</h2>
+<h2><small>@Model.Category - @Model.SubCategory | Published on @Model.PublishTime.ToString(ViewBag.DateTimeFormat) | Updated on @Model.UpdateTime.ToString(ViewBag.DateTimeFormat)</small></h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th />
+            <th>File Name</th>
+            <th>Size</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (String link in Model.Link.Split(new String[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            Match m = ViewBag.LinkRegex.Match(link);
+
+            <tr>
+                <td>
+                    <input class="checkbox" name="linkCheckBox" type="checkbox" checked="checked" value="@link"
+                           onclick="checkSelectionStatus();" />
+                </td>
+                <td>
+                    <a href="@link">@WebUtility.UrlDecode(m.Groups["FileName"].Value)</a>
+                </td>
+                <td>
+                    @StringHelper.GetHumanReadableSizeString(Int64.Parse(m.Groups["FileSize"].Value), 2)
+                </td>
+            </tr>}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <input class="checkbox center-block" id="selectAllCheckBox" type="checkbox" checked="checked"
+                       onclick="selectAllLinks(this.checked)" />
+            </td>
+            <td>
+                <button class="btn btn-xs btn-default" id="copyButton" type="button" onclick="copyLinks();">
+                    <span class="glyphicon glyphicon-copy" /> Copy
+                </button>
+                <span id="copyStatus"></span>
+            </td>
+            <td>
+                <span id="totalSize"></span>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<div class="container">
+    <pre>@Model.Description</pre>
+</div>
