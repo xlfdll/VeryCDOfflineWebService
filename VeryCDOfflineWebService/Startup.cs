@@ -11,15 +11,12 @@ namespace VeryCDOfflineWebService
 {
 	public class Startup
 	{
-		public Startup(IHostingEnvironment env)
+		public Startup(IConfiguration configuration)
 		{
-			this.Configuration = new ConfigurationBuilder()
-				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json")
-				.Build();
+			this.Configuration = configuration;
 		}
 
-		public IConfigurationRoot Configuration { get; }
+		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -43,7 +40,7 @@ namespace VeryCDOfflineWebService
 			{
 				app.UseDeveloperExceptionPage();
 			}
-			
+
 			app.UseStaticFiles();
 			app.UseStatusCodePages();
 			app.UseMvcWithDefaultRoute();
