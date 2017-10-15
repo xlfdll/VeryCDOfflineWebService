@@ -3,7 +3,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 using VeryCDOfflineWebService.Data;
 using VeryCDOfflineWebService.Models;
@@ -12,14 +12,14 @@ namespace VeryCDOfflineWebService.Controllers
 {
 	public class HomeController : Controller
 	{
-		public HomeController(MainDataContext dataContext, IConfigurationRoot configuration)
+		public HomeController(MainDataContext dataContext, IOptions<AppSettings> optionsAccessor)
 		{
 			this.DataContext = dataContext;
-			this.Configuration = configuration;
+			this.Settings = optionsAccessor.Value;
 		}
 
 		public MainDataContext DataContext { get; }
-		public IConfigurationRoot Configuration { get; }
+		public AppSettings Settings { get; }
 
 		[HttpGet]
 		public IActionResult Index()
@@ -43,7 +43,7 @@ namespace VeryCDOfflineWebService.Controllers
 
 				ViewBag.Keyword = keyword;
 
-				return View(new SearchViewModel(results, page, this.Configuration.GetValue<Int32>("ItemsPerPage")));
+				return View(new SearchViewModel(results, page, this.Settings.ItemsPerPage));
 			}
 			else
 			{

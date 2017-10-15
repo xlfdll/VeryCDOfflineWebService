@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using VeryCDOfflineWebService.Data;
+using VeryCDOfflineWebService.Models;
 
 namespace VeryCDOfflineWebService
 {
@@ -25,7 +26,7 @@ namespace VeryCDOfflineWebService
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc();
-			services.AddSingleton<IConfigurationRoot>(this.Configuration);
+			services.Configure<AppSettings>(this.Configuration);
 			services.AddEntityFrameworkSqlite().AddDbContext<MainDataContext>
 				(
 					options =>
