@@ -1,0 +1,61 @@
+﻿@model SearchViewModel
+@{
+    ViewBag.Title = $"Search ({Model.Entries.Count()} item(s))";
+    ViewBag.DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+    ViewBag.DescriptionLength = 250;
+}
+
+<h4>Found @Model.Entries.Count() item(s). Showing @((Model.CurrentPage - 1) * Model.ItemsPerPage + 1) - @((Model.CurrentPage - 1) * Model.ItemsPerPage + Model.PagedEntries.Count()):</h4>
+<div class="list-group">
+    @foreach (Entry item in Model.PagedEntries)
+    {
+        <a class="list-group-item" asp-action="Show" asp-route-id="@item.ID">
+            <div class="panel panel-default">
+                <div class="panel-heading">@item.Title</div>
+                <div class="panel-body">
+                    @if (item.Description.Length > ViewBag.DescriptionLength)
+                    { @item.Description.Substring(0, ViewBag.DescriptionLength) }
+                    else
+                    { @item.Description }
+                </div>
+                <div class="panel-footer">
+                    @item.Category - @item.SubCategory | Published on @item.PublishTime.ToString(ViewBag.DateTimeFormat) | Updated on @item.UpdateTime.ToString(ViewBag.DateTimeFormat)
+                </div>
+            </div>
+        </a>
+    }
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <ul class="pager">
+            <li class="previous">
+                @if (Model.CurrentPage > 1)
+                { <a asp-action="Search" asp-route-keyword="@ViewBag.Keyword" asp-route-page="@(Model.CurrentPage - 1)">Previous</a> }
+                else
+                { <a class="disabled">Previous</a> }
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4 text-center">
+        <form asp-action="Search" method="get">
+            <input name="keyword" type="hidden" value="@ViewBag.Keyword" />
+            <input name="page" type="number" min="1" max="@Model.TotalPages" value="@Model.CurrentPage" maxlength="3" />
+            <span>
+                / @Model.TotalPages
+            </span>
+            <button class="btn btn-sm btn-default" type="submit">
+                <span class="glyphicon glyphicon-triangle-right" /> Go
+            </button>
+        </form>
+    </div>
+    <div class="col-md-4 right">
+        <ul class="pager">
+            <li class="next">
+                @if (Model.CurrentPage < Model.TotalPages)
+                { <a asp-action="Search" asp-route-keyword="@ViewBag.Keyword" asp-route-page="@(Model.CurrentPage + 1)">Next</a> }
+                else
+                { <a class="disabled">Next</a> }
+            </li>
+        </ul>
+    </div>
+</div>

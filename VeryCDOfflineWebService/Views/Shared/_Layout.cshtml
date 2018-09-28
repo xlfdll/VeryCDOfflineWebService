@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VeryCD Offline Web Service</title>
+
+    <!-- Must add app.UseStaticFiles() in Startup.Configure() method to access static files -->
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/global.css" />
+        <script type="text/javascript" src="~/js/global.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/global.min.css" />
+        <script type="text/javascript" src="~/js/global.min.js"></script>
+    </environment>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">VeryCD Offline Web Service</a>
+            </div>
+            <form class="navbar-form navbar-right" asp-action="Search" method="get">
+                <div class="input-group">
+                    <input class="form-control" name="keyword" type="text" placeholder="Enter keyword here" />
+                    <input name="page" type="hidden" value="1" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search" /> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container body-content center-block">
+        @RenderBody()
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2017 Xlfdll Workstation</p>
+        </div>
+    </footer>
+</body>
+</html>

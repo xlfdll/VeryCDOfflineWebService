@@ -1,2 +1,2 @@
-# VeryCDOfflineWebService
-A simple web app similar to old VeryCD / SimpleCD
+# VeryCDOfflineWebService-NETCore
+A deprecated .NET Core version of VeryCDOfflineWebService
