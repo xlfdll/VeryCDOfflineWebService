@@ -28,3 +28,5 @@ Before use, a converted SQLite database, converted from SimpleCD Desktop app, mu
   * **The original and converted database files are not provided in this repository**
 
 If everything is set up correctly, the pages similar to above screenshots should show up. Type a keyword to start a search.
+
+**NOTICE: this app does not contain comment data, nor the features to show / post comments.**
