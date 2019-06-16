@@ -48,9 +48,9 @@ require_once("include/templates/header.php");
                 <div class="card-body">
                     <?php
                     if (strlen($row["Description"]) > $descDisplayLength) {
-                        echo substr(htmlspecialchars($row["Description"]), 0, $descDisplayLength) . "...";
+                        echo mb_substr(htmlspecialchars_decode($row["Description"]), 0, $descDisplayLength) . "...";
                     } else {
-                        echo htmlspecialchars($row["Description"]);
+                        echo htmlspecialchars_decode($row["Description"]);
                     }
                     ?>
                 </div>
