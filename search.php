@@ -36,31 +36,35 @@ require_once("include/templates/header.php");
 
     <div class="list-group">
         <?php
-        $row = $result->fetchArray();
-        while ($row) {
-            ?>
-            <div class="card my-3">
-                <h5 class="card-header">
-                    <a href="<?= "show.php?id=" . $row["ID"] ?>">
-                        <?= $row["Title"] ?>
-                    </a>
-                </h5>
-                <div class="card-body">
-                    <?php
-                    if (strlen($row["Description"]) > $descDisplayLength) {
-                        echo mb_substr(htmlspecialchars_decode($row["Description"]), 0, $descDisplayLength) . "...";
-                    } else {
-                        echo htmlspecialchars_decode($row["Description"]);
-                    }
-                    ?>
-                </div>
-                <div class="card-footer">
-                    <?= $row["Category"] ?> - <?= $row["SubCategory"] ?> | Published
-                    on <?= $row["PublishTime"] ?>
-                </div>
-            </div>
-            <?php
+        if (isset($result))
+        {
             $row = $result->fetchArray();
+    
+            while ($row) {
+                ?>
+                <div class="card my-3">
+                    <h5 class="card-header">
+                        <a href="<?= "show.php?id=" . $row["ID"] ?>">
+                            <?= $row["Title"] ?>
+                        </a>
+                    </h5>
+                    <div class="card-body">
+                        <?php
+                        if (strlen($row["Description"]) > $descDisplayLength) {
+                            echo mb_substr(htmlspecialchars_decode($row["Description"]), 0, $descDisplayLength) . "...";
+                        } else {
+                            echo htmlspecialchars_decode($row["Description"]);
+                        }
+                        ?>
+                    </div>
+                    <div class="card-footer">
+                        <?= $row["Category"] ?> - <?= $row["SubCategory"] ?> | Published
+                        on <?= $row["PublishTime"] ?>
+                    </div>
+                </div>
+                <?php
+                $row = $result->fetchArray();
+            }
         }
         ?>
     </div>
